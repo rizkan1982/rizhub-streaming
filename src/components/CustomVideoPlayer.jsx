@@ -447,16 +447,6 @@ export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
         </div>
       </div>
 
-      {/* Keyboard Shortcuts Hint - Hide on mobile */}
-      <div className={`hidden md:block absolute top-4 right-4 bg-black/80 text-white text-xs p-3 rounded-lg backdrop-blur-sm transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="font-bold mb-1">⌨️ Shortcuts:</div>
-        <div>Space/K: Play/Pause</div>
-        <div>←→: Skip 10s</div>
-        <div>↑↓: Volume</div>
-        <div>F: Fullscreen</div>
-        <div>M: Mute</div>
-        <div>T: Theater</div>
-      </div>
     </div>
   );
 }

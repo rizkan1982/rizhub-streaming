@@ -71,11 +71,11 @@ export default function ShareButton({ video, url }) {
       {/* Share Button */}
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="group relative px-6 py-3 bg-gradient-to-r from-purple-600/20 to-pink-600/20 hover:from-purple-600 hover:to-pink-600 text-white rounded-2xl transition-all duration-300 overflow-hidden border border-purple-500/30 hover:border-purple-500 hover:shadow-xl hover:shadow-purple-500/30 font-bold"
+        className="group relative px-3 py-2 sm:px-4 sm:py-2.5 lg:px-6 lg:py-3 bg-gradient-to-r from-purple-600/20 to-pink-600/20 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl sm:rounded-2xl transition-all duration-300 overflow-hidden border border-purple-500/30 hover:border-purple-500 hover:shadow-xl hover:shadow-purple-500/30 font-bold"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        <span className="relative flex items-center gap-2">
-          📤 Share
+        <span className="relative flex items-center gap-1 sm:gap-2 text-xs sm:text-sm lg:text-base">
+          📤 <span className="hidden sm:inline">Share</span>
         </span>
       </button>
 
@@ -89,16 +89,16 @@ export default function ShareButton({ video, url }) {
           />
           
           {/* Menu */}
-          <div className="absolute top-full mt-2 right-0 z-50 bg-black/95 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl min-w-[250px]">
+          <div className="absolute top-full mt-2 right-0 z-50 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-2xl min-w-[220px] sm:min-w-[250px]">
             {/* Copied Notification */}
             {copied && (
-              <div className="mb-3 p-3 bg-green-500/20 border border-green-500/30 rounded-xl text-green-400 text-sm font-semibold text-center">
+              <div className="mb-2 sm:mb-3 p-2 sm:p-3 bg-green-500/20 border border-green-500/30 rounded-lg sm:rounded-xl text-green-400 text-xs sm:text-sm font-semibold text-center">
                 ✅ Link copied!
               </div>
             )}
             
             {/* Share Options */}
-            <div className="space-y-2">
+            <div className="space-y-1.5 sm:space-y-2">
               {shareOptions.map((option, index) => (
                 <button
                   key={index}
@@ -108,12 +108,12 @@ export default function ShareButton({ video, url }) {
                       setShowMenu(false);
                     }
                   }}
-                  className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left group/item"
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg sm:rounded-xl hover:bg-white/5 transition-colors text-left group/item"
                 >
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-r ${option.color} flex items-center justify-center text-lg`}>
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-r ${option.color} flex items-center justify-center text-base sm:text-lg flex-shrink-0`}>
                     {option.icon}
                   </div>
-                  <span className="text-white font-semibold group-hover/item:text-transparent group-hover/item:bg-clip-text group-hover/item:bg-gradient-to-r group-hover/item:${option.color}">
+                  <span className="text-white text-sm sm:text-base font-semibold group-hover/item:text-transparent group-hover/item:bg-clip-text group-hover/item:bg-gradient-to-r group-hover/item:${option.color}">
                     {option.name}
                   </span>
                 </button>

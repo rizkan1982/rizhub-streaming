@@ -84,40 +84,40 @@ export default function LikeButton({ videoId }) {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2 sm:gap-3">
       {/* Like Button */}
       <button
         onClick={handleLike}
-        className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-bold transition-all duration-300 ${
+        className={`flex items-center gap-2 sm:gap-3 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-6 lg:py-3 rounded-xl sm:rounded-2xl font-bold transition-all duration-300 ${
           liked
             ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg shadow-green-500/50'
             : 'bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 hover:border-green-500/30'
         }`}
       >
-        <span className={`text-2xl transition-transform ${liked ? 'scale-125' : 'group-hover:scale-110'}`}>
+        <span className={`text-lg sm:text-xl lg:text-2xl transition-transform ${liked ? 'scale-125' : 'group-hover:scale-110'}`}>
           {liked ? '👍' : '👍'}
         </span>
         <div className="text-left">
-          <div className="text-xs opacity-60">{isEnglish ? 'Like' : 'Suka'}</div>
-          <div className="text-sm font-black">{likeCount > 0 ? likeCount.toLocaleString() : '0'}</div>
+          <div className="text-[10px] sm:text-xs opacity-60">{isEnglish ? 'Like' : 'Suka'}</div>
+          <div className="text-xs sm:text-sm font-black">{likeCount > 0 ? likeCount.toLocaleString() : '0'}</div>
         </div>
       </button>
 
       {/* Dislike Button */}
       <button
         onClick={handleDislike}
-        className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-bold transition-all duration-300 ${
+        className={`flex items-center gap-2 sm:gap-3 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-6 lg:py-3 rounded-xl sm:rounded-2xl font-bold transition-all duration-300 ${
           disliked
             ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-lg shadow-red-500/50'
             : 'bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 hover:border-red-500/30'
         }`}
       >
-        <span className={`text-2xl transition-transform ${disliked ? 'scale-125' : 'group-hover:scale-110'}`}>
+        <span className={`text-lg sm:text-xl lg:text-2xl transition-transform ${disliked ? 'scale-125' : 'group-hover:scale-110'}`}>
           {disliked ? '👎' : '👎'}
         </span>
         <div className="text-left">
-          <div className="text-xs opacity-60">{isEnglish ? 'Dislike' : 'Tidak Suka'}</div>
-          <div className="text-sm font-black">{dislikeCount > 0 ? dislikeCount.toLocaleString() : '0'}</div>
+          <div className="text-[10px] sm:text-xs opacity-60">{isEnglish ? 'Dislike' : 'Tidak Suka'}</div>
+          <div className="text-xs sm:text-sm font-black">{dislikeCount > 0 ? dislikeCount.toLocaleString() : '0'}</div>
         </div>
       </button>
     </div>

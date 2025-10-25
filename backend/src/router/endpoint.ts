@@ -25,6 +25,17 @@ import { getXvideos } from "../controller/xvideos/xvideosGet";
 import searchXvideos from "../controller/xvideos/xvideosSearch";
 import { randomXvideos } from "../controller/xvideos/xvideosRandom";
 import { relatedXvideos } from "../controller/xvideos/xvideosGetRelated";
+import { watchXvideos } from "../controller/xvideos/xvideosWatch";
+import { proxyXvideosStream } from "../controller/xvideos/xvideosProxy";
+
+// Comments & Likes
+import { getComments, postComment, likeComment, replyComment } from "../controller/comments/commentController";
+import { getLikes, toggleLike } from "../controller/likes/likeController";
+
+// Admin
+import { adminLogin, getDashboard, getUsers, getUserActivity, getAllComments, deleteComment, getAnalytics } from "../controller/admin/adminController";
+import { adminAuth } from "../middleware/adminAuth";
+import { sessionTracking } from "../middleware/sessionTracking";
 
 // Xhamster
 import { getXhamster } from "../controller/xhamster/xhamsterGet";
@@ -57,6 +68,8 @@ function scrapeRoutes() {
   router.get("/xvideos/search", cors(), slow, limiter, searchXvideos);
   router.get("/xvideos/random", cors(), slow, limiter, randomXvideos);
   router.get("/xvideos/related", cors(), slow, limiter, relatedXvideos);
+  router.get("/xvideos/watch", cors(), slow, limiter, watchXvideos);
+  router.get("/xvideos/proxy", cors(), proxyXvideosStream);
   router.get("/xhamster/get", cors(), slow, limiter, getXhamster);
   router.get("/xhamster/search", cors(), slow, limiter, searchXhamster);
   router.get("/xhamster/random", cors(), slow, limiter, randomXhamster);
@@ -65,6 +78,23 @@ function scrapeRoutes() {
   router.get("/youporn/search", cors(), slow, limiter, searchYouporn);
   router.get("/youporn/related", cors(), slow, limiter, relatedYouporn);
   router.get("/youporn/random", cors(), slow, limiter, randomYouporn);
+  
+  // Comments & Likes (with session tracking)
+  router.get("/comments", cors(), sessionTracking, getComments);
+  router.post("/comments", cors(), sessionTracking, postComment);
+  router.post("/comments/like", cors(), sessionTracking, likeComment);
+  router.post("/comments/reply", cors(), sessionTracking, replyComment);
+  router.get("/likes", cors(), sessionTracking, getLikes);
+  router.post("/likes/toggle", cors(), sessionTracking, toggleLike);
+  
+  // Admin routes (protected)
+  router.post("/admin/login", cors(), adminLogin);
+  router.get("/admin/dashboard", cors(), adminAuth, getDashboard);
+  router.get("/admin/users", cors(), adminAuth, getUsers);
+  router.get("/admin/users/:sessionId", cors(), adminAuth, getUserActivity);
+  router.get("/admin/comments", cors(), adminAuth, getAllComments);
+  router.delete("/admin/comments/:commentId", cors(), adminAuth, deleteComment);
+  router.get("/admin/analytics", cors(), adminAuth, getAnalytics);
   
   return router;
 }

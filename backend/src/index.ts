@@ -1,112 +1,145 @@
-import express, { Request, Response } from "express";
+// Load environment variables FIRST (before any other imports!)
+import dotenv from "dotenv";
+dotenv.config();
+
+// Now import everything else
+import express from "express";
 import cors from "cors";
-import fetch from "node-fetch";
-import * as cheerio from "cheerio";
+import cookieParser from "cookie-parser";
+import scrapeRoutes from "./router/endpoint";
+import { logger } from "./utils/logger";
+import { connectDatabase } from "./config/database";
+import { sessionTracking } from "./middleware/sessionTracking";
 
 const app = express();
-app.use(cors());
+const PORT = process.env.PORT || 3000;
+
+// Connect to database
+connectDatabase().catch(err => {
+  console.error("Database connection failed:", err);
+  console.log("⚠️  Continuing without database - video streaming will work, but user tracking is disabled");
+});
+
+// Middleware
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "DELETE", "PUT"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
 app.use(express.json());
+app.use(cookieParser());
 
-// =====================
-// ROUTE: Search videos
-// =====================
-app.get("/xvideos/search", async (req: Request, res: Response) => {
+// Request logging
+app.use((req, res, next) => {
+  logger.info({
+    method: req.method,
+    path: req.path,
+    ip: req.ip,
+    timestamp: new Date().toISOString()
+  });
+  next();
+});
+
+// Health check endpoint
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "🎬 RizHub Premium Entertainment API is running!",
+    version: "3.0.0",
+    features: [
+      "✅ Multi-platform video scraping",
+      "✅ User session tracking",
+      "✅ Comment system (no login required)",
+      "✅ Like/Unlike system",
+      "✅ Admin dashboard with analytics",
+      "✅ Real-time user activity monitoring"
+    ],
+    endpoints: {
+      videos: [
+        "GET /xvideos/search?key=query&page=1",
+        "GET /xvideos/get?id=videoId",
+        "GET /xvideos/random",
+        "GET /xvideos/related?id=videoId",
+        "GET /xvideos/watch?id=videoId (get stream URL)",
+        "GET /xvideos/proxy?url=streamUrl (proxy video)"
+      ],
+      social: [
+        "GET /comments?videoId=xxx&platform=xvideos",
+        "POST /comments (body: {videoId, platform, text})",
+        "POST /comments/like (body: {commentId})",
+        "POST /comments/reply (body: {commentId, text})",
+        "GET /likes?videoId=xxx",
+        "POST /likes/toggle (body: {videoId, platform})"
+      ],
+      admin: [
+        "POST /admin/login (body: {username, password})",
+        "GET /admin/dashboard (requires auth)",
+        "GET /admin/users (requires auth)",
+        "GET /admin/analytics (requires auth)"
+      ]
+    },
+    documentation: "See START.md for full API documentation"
+  });
+});
+
+// API Routes - All platforms
+app.use("/", scrapeRoutes());
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Endpoint not found",
+    path: req.path
+  });
+});
+
+// Error handler
+app.use((err: any, req: any, res: any, next: any) => {
+  logger.error({
+    error: err.message,
+    stack: err.stack,
+    path: req.path
+  });
+  
+  res.status(500).json({
+    success: false,
+    message: "Internal server error",
+    error: process.env.NODE_ENV === "development" ? err.message : undefined
+  });
+});
+
+// Start server
+app.listen(PORT, async () => {
+  console.log(`
+╔═══════════════════════════════════════════════════════╗
+║  🎬 RizHub Premium Entertainment API                  ║
+║  🚀 Server: http://localhost:${PORT}                   ║
+║  📊 Admin: http://localhost:${PORT}/admin/dashboard    ║
+║  📚 Docs: See START.md                                ║
+║  🌐 CORS: Enabled                                     ║
+║  🔒 Session Tracking: Active                          ║
+╚═══════════════════════════════════════════════════════╝
+  `);
+  logger.info(`Server started on port ${PORT}`);
+  
+  // Create default admin if not exists
   try {
-    const query = req.query.q as string;
-    if (!query) {
-      return res.status(400).json({ success: false, message: "Missing search query" });
-    }
-
-    const searchUrl = `https://www.xvideos.com/?k=${encodeURIComponent(query)}`;
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(searchUrl)}`;
-
-    const response = await fetch(proxyUrl, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
-        "Accept-Language": "en-US,en;q=0.9",
-      },
-    });
-
-    const html = await response.text();
-    const $ = cheerio.load(html);
-    const results: any[] = [];
-
-    $("div.thumb-inside").each((i, el) => {
-      const title = $(el).find("p.title a").text().trim();
-      const url = $(el).find("p.title a").attr("href") || "";
-      const thumb =
-        $(el).find("img").attr("data-src") || $(el).find("img").attr("src") || "";
-      const idMatch = url.match(/video(\w+)/);
-
-      results.push({
-        id: idMatch ? idMatch[1] : null,
-        title,
-        thumb,
-        url: `https://www.xvideos.com${url}`,
+    const Admin = (await import("./models/Admin")).default;
+    const existingAdmin = await Admin.findOne({ username: "rizhub_admin" });
+    if (!existingAdmin) {
+      await Admin.create({
+        username: "rizhub_admin",
+        password: "RizHub2025!@#SecurePass",
+        role: "admin"
       });
-    });
-
-    res.json({ success: true, total: results.length, data: results });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).json({ success: false, message: error.message });
+      console.log("✅ Default admin created");
+      console.log("   Username: rizhub_admin");
+      console.log("   Password: RizHub2025!@#SecurePass");
+      console.log("   ⚠️  CHANGE THIS PASSWORD IMMEDIATELY!");
+    }
+  } catch (error) {
+    console.log("⚠️  Admin creation skipped (database not connected)");
   }
 });
-
-// ======================
-// ROUTE: Watch video
-// ======================
-app.get("/xvideos/watch", async (req: Request, res: Response) => {
-  try {
-    const id = req.query.id as string;
-    if (!id) {
-      return res.status(400).json({ success: false, message: "Missing video ID" });
-    }
-
-    const videoUrl = `https://www.xvideos.com/video${id}`;
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(videoUrl)}`;
-
-    const response = await fetch(proxyUrl, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
-        "Accept-Language": "en-US,en;q=0.9",
-      },
-    });
-
-    const html = await response.text();
-    const $ = cheerio.load(html);
-
-    // Coba cari link video dari tag <source>
-    const videoSrc =
-      $("video > source").attr("src") ||
-      $("source").attr("src") ||
-      null;
-
-    // Kalau tidak ada <source>, coba dari JavaScript variable di HTML
-    const regex = /setVideoUrlHigh\('(.+?)'\)/.exec(html);
-    const fallback = regex ? regex[1] : null;
-
-    const streamUrl = videoSrc || fallback;
-
-    if (!streamUrl) {
-      return res.json({ success: false, message: "Video stream not found" });
-    }
-
-    res.json({
-      success: true,
-      data: {
-        id,
-        stream: streamUrl.startsWith("http") ? streamUrl : `https:${streamUrl}`,
-        original: videoUrl,
-      },
-    });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
-
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

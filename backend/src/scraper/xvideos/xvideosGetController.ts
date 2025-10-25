@@ -28,19 +28,27 @@ export async function scrapeContent(url: string) {
       embed: string;
       constructor() {
         this.link = $("meta[property='og:url']").attr("content") || "None";
-        this.id = this.link.split("/")[3] + "/" + this.link.split("/")[4] || "None";
+        this.id = this.link !== "None" ? this.link.split("/")[3] + "/" + this.link.split("/")[4] : "None";
         this.title = $("meta[property='og:title']").attr("content") || "None";
         this.image = $("meta[property='og:image']").attr("content") || "None";
         this.duration = $("meta[property='og:duration']").attr("content") || "0";
         this.views = $("div#v-views").find("strong.mobile-hide").text() || "None";
         this.rating = $("span.rating-total-txt").text() || "None";
         this.publish = $("script[type='application/ld+json']").text() || "None";
-        this.publish = this.publish
-          .split("uploadDate")[1]
-          .split("}")[0]
-          .split(":")[1]
-          .replace(/"/g, "")
-          .replace(/,/g, "") || "None";
+        try {
+          if (this.publish !== "None" && this.publish.includes("uploadDate")) {
+            const parts = this.publish.split("uploadDate");
+            if (parts[1]) {
+              this.publish = parts[1]
+                .split("}")[0]
+                .split(":")[1]
+                .replace(/"/g, "")
+                .replace(/,/g, "") || "None";
+            }
+          }
+        } catch {
+          this.publish = "None";
+        }
         this.upVote = $("span.rating-good-nbr").text() || "None";
         this.downVote = $("span.rating-bad-nbr").text() || "None";
         const thumb = $("script")
@@ -62,7 +70,19 @@ export async function scrapeContent(url: string) {
           ).get();
         this.models = this.models.map((el) => el.split("/")[2]);
         this.embed = $("input#copy-video-embed").attr("value") || "None";
-        this.embed = this.embed.split("iframe")[1].split(" ")[1].replace(/src=/g, "").replace(/"/g, "") || "None";
+        try {
+          if (this.embed !== "None" && this.embed.includes("iframe")) {
+            const parts = this.embed.split("iframe");
+            if (parts[1]) {
+              const srcParts = parts[1].split(" ");
+              if (srcParts[1]) {
+                this.embed = srcParts[1].replace(/src=/g, "").replace(/"/g, "");
+              }
+            }
+          }
+        } catch {
+          this.embed = "None";
+        }
       }
     }
     

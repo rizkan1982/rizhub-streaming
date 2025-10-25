@@ -274,9 +274,9 @@ export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
         <div className="absolute inset-0 flex items-center justify-center">
           <button
             onClick={togglePlay}
-            className="w-24 h-24 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center hover:scale-110 transition-transform shadow-2xl"
+            className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center hover:scale-110 transition-transform shadow-2xl"
           >
-            <svg className="w-12 h-12 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z"/>
             </svg>
           </button>
@@ -286,10 +286,10 @@ export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
       {/* Controls Overlay */}
       <div className={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent transition-opacity duration-300 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}>
         {/* Progress Bar */}
-        <div className="px-4 pt-8">
+        <div className="px-2 sm:px-4 pt-6 sm:pt-8">
           <div
             ref={progressRef}
-            className="h-2 bg-white/20 rounded-full cursor-pointer relative group/progress"
+            className="h-1.5 sm:h-2 bg-white/20 rounded-full cursor-pointer relative group/progress"
             onClick={handleSeek}
           >
             {/* Buffered */}
@@ -302,19 +302,19 @@ export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
               className="absolute h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-end"
               style={{ width: `${progress}%` }}
             >
-              <div className="w-4 h-4 bg-white rounded-full shadow-lg opacity-0 group-hover/progress:opacity-100 transition-opacity"></div>
+              <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full shadow-lg opacity-0 group-hover/progress:opacity-100 transition-opacity"></div>
             </div>
           </div>
           
           {/* Time Display */}
-          <div className="flex justify-between text-white text-sm mt-1">
+          <div className="flex justify-between text-white text-[10px] sm:text-sm mt-1">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
         </div>
 
         {/* Control Buttons */}
-        <div className="flex items-center justify-between px-4 pb-4 pt-2">
+        <div className="flex items-center justify-between px-2 sm:px-4 pb-2 sm:pb-4 pt-1 sm:pt-2">
           {/* Left Controls */}
           <div className="flex items-center gap-3">
             {/* Play/Pause */}
@@ -447,8 +447,8 @@ export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
         </div>
       </div>
 
-      {/* Keyboard Shortcuts Hint */}
-      <div className={`absolute top-4 right-4 bg-black/80 text-white text-xs p-3 rounded-lg backdrop-blur-sm transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Keyboard Shortcuts Hint - Hide on mobile */}
+      <div className={`hidden md:block absolute top-4 right-4 bg-black/80 text-white text-xs p-3 rounded-lg backdrop-blur-sm transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
         <div className="font-bold mb-1">⌨️ Shortcuts:</div>
         <div>Space/K: Play/Pause</div>
         <div>←→: Skip 10s</div>

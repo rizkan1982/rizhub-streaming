@@ -60,28 +60,28 @@ export default function Navbar() {
   const showingSuggestions = showSuggestions && (recentSearches.length > 0 || filteredSuggestions.length > 0);
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-2xl bg-black/95 border-b border-white/5 shadow-2xl">
-      <div className="container mx-auto px-6 py-5">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+    <nav className="sticky top-0 z-50 backdrop-blur-xl md:backdrop-blur-2xl bg-black/95 border-b border-white/5 shadow-lg md:shadow-2xl">
+      <div className="container mx-auto px-4 md:px-6 py-3 md:py-5">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6">
           {/* Logo - RizHub */}
-          <Link to="/" className="flex items-center space-x-4 group">
+          <Link to="/" className="flex items-center space-x-3 md:space-x-4 group">
             <div className="relative">
-              {/* Animated Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-2xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
+              {/* Animated Glow Effect - Desktop only */}
+              <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-2xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
               
               {/* Logo Icon */}
-              <div className="relative bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 p-3 rounded-2xl transform group-hover:rotate-6 transition-all duration-300">
-                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <div className="relative bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 p-2 md:p-3 rounded-xl md:rounded-2xl active:scale-95 md:group-hover:rotate-6 transition-all duration-200">
+                <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V7.89l7-3.78v8.88z"/>
                 </svg>
               </div>
             </div>
             
             <div>
-              <h1 className="text-3xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-transparent tracking-tight">
+              <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-transparent tracking-tight">
                 RizHub
               </h1>
-              <p className="text-xs text-white/40 tracking-widest uppercase font-semibold">
+              <p className="text-[10px] md:text-xs text-white/40 tracking-widest uppercase font-semibold">
                 {t('premium')}
               </p>
             </div>
@@ -96,31 +96,31 @@ export default function Navbar() {
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => setShowSuggestions(true)}
                 placeholder={t('search')}
-                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-white/30 focus:outline-none focus:border-purple-500/50 focus:bg-white/10 transition-all duration-300 backdrop-blur-xl"
+                className="w-full px-4 py-3 md:px-6 md:py-4 bg-white/5 border border-white/10 rounded-xl md:rounded-2xl text-sm md:text-base text-white placeholder-white/30 focus:outline-none focus:border-purple-500/50 focus:bg-white/10 transition-all duration-200 backdrop-blur-lg md:backdrop-blur-xl"
               />
               <button 
                 type="submit" 
-                className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 hover:from-purple-500 hover:via-pink-500 hover:to-red-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-purple-500/50"
+                className="absolute right-1.5 md:right-2 top-1/2 -translate-y-1/2 px-4 md:px-6 py-1.5 md:py-2 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 active:from-purple-700 active:via-pink-700 active:to-red-700 md:hover:from-purple-500 md:hover:via-pink-500 md:hover:to-red-500 text-white text-sm md:text-base font-semibold rounded-lg md:rounded-xl transition-all duration-200 shadow-md md:shadow-lg"
               >
                 {t('searchBtn')}
               </button>
               
               {/* Search Suggestions */}
               {showingSuggestions && (
-                <div className="absolute top-full mt-2 w-full bg-black/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50">
+                <div className="absolute top-full mt-2 w-full bg-black/95 backdrop-blur-lg md:backdrop-blur-xl border border-white/10 rounded-xl md:rounded-2xl shadow-xl md:shadow-2xl overflow-hidden z-50">
                   {/* Recent Searches */}
                   {recentSearches.length > 0 && !query.trim() && (
-                    <div className="p-2">
-                      <div className="px-4 py-2 text-xs text-white/40 font-semibold uppercase tracking-wider">
+                    <div className="p-1 md:p-2">
+                      <div className="px-3 md:px-4 py-1.5 md:py-2 text-[10px] md:text-xs text-white/40 font-semibold uppercase tracking-wider">
                         🕒 Recent Searches
                       </div>
                       {recentSearches.slice(0, 5).map((search, i) => (
                         <button
                           key={i}
                           onClick={() => handleSuggestionClick(search)}
-                          className="w-full text-left px-4 py-3 hover:bg-white/5 text-white rounded-xl transition-colors flex items-center gap-3 group"
+                          className="w-full text-left px-3 md:px-4 py-2 md:py-3 active:bg-white/5 md:hover:bg-white/5 text-white text-sm md:text-base rounded-lg md:rounded-xl transition-colors flex items-center gap-2 md:gap-3 group"
                         >
-                          <svg className="w-4 h-4 text-white/40 group-hover:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-white/40 md:group-hover:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
                           <span className="group-hover:text-gradient-rizhub">{search}</span>
@@ -131,17 +131,17 @@ export default function Navbar() {
                   
                   {/* Filtered Suggestions */}
                   {filteredSuggestions.length > 0 && query.trim() && (
-                    <div className="p-2">
-                      <div className="px-4 py-2 text-xs text-white/40 font-semibold uppercase tracking-wider">
+                    <div className="p-1 md:p-2">
+                      <div className="px-3 md:px-4 py-1.5 md:py-2 text-[10px] md:text-xs text-white/40 font-semibold uppercase tracking-wider">
                         🔥 Popular Searches
                       </div>
                       {filteredSuggestions.slice(0, 8).map((suggestion, i) => (
                         <button
                           key={i}
                           onClick={() => handleSuggestionClick(suggestion)}
-                          className="w-full text-left px-4 py-3 hover:bg-white/5 text-white rounded-xl transition-colors flex items-center gap-3 group"
+                          className="w-full text-left px-3 md:px-4 py-2 md:py-3 active:bg-white/5 md:hover:bg-white/5 text-white text-sm md:text-base rounded-lg md:rounded-xl transition-colors flex items-center gap-2 md:gap-3 group"
                         >
-                          <svg className="w-4 h-4 text-white/40 group-hover:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-white/40 md:group-hover:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
                           <span className="group-hover:text-gradient-rizhub">{suggestion}</span>
@@ -157,13 +157,13 @@ export default function Navbar() {
           {/* Language Switcher */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all duration-300 group"
+            className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 bg-white/5 active:bg-white/10 md:hover:bg-white/10 border border-white/10 rounded-xl md:rounded-2xl transition-all duration-200 group"
             title="Switch Language"
           >
-            <svg className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 md:w-5 md:h-5 text-white/70 group-active:text-white md:group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
             </svg>
-            <span className="text-sm font-bold text-white/70 group-hover:text-white transition-colors">
+            <span className="text-xs md:text-sm font-bold text-white/70 group-active:text-white md:group-hover:text-white transition-colors">
               {language === 'en' ? 'EN' : 'ID'}
             </span>
           </button>

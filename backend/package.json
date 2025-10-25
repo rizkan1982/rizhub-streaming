@@ -5,6 +5,7 @@
   "main": "build/src/index.js",
   "scripts": {
     "build": "rimraf build && tsc",
+    "vercel-build": "rimraf build && tsc",
     "start": "node build/src/index.js",
     "test": "ts-node test/test.ts",
     "test:mock": "ts-node test/mock.ts",

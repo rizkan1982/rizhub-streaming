@@ -221,21 +221,21 @@ export default function WatchPage() {
     <div className="min-h-screen bg-black">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-8">
         {/* Back Button */}
-        <Link to="/" className="inline-flex items-center gap-3 text-white/60 hover:text-white mb-8 transition-all duration-300 group">
-          <svg className="w-6 h-6 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <Link to="/" className="inline-flex items-center gap-2 text-white/60 hover:text-white mb-4 sm:mb-8 transition-all duration-300 group">
+          <svg className="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          <span className="font-semibold">{t('backToGallery')}</span>
+          <span className="font-semibold text-sm sm:text-base">{t('backToGallery')}</span>
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
           {/* Main Video Section */}
-          <div className="lg:col-span-2 space-y-4 lg:space-y-6">
+          <div className="lg:col-span-2 space-y-3 sm:space-y-4 lg:space-y-6">
             {/* Video Player */}
-            <div className="bg-white/5 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-              <div className="aspect-video bg-black relative rounded-3xl overflow-hidden">
+            <div className="bg-white/5 backdrop-blur-lg sm:backdrop-blur-xl rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-xl sm:shadow-2xl">
+              <div className="aspect-video bg-black relative rounded-2xl sm:rounded-3xl overflow-hidden">
                 {streamUrl && !error ? (
                   /* Custom Video Player with Full Controls */
                   <CustomVideoPlayer
@@ -253,42 +253,42 @@ export default function WatchPage() {
                 ) : loading ? (
                   /* Loading State */
                   <div className="absolute inset-0 flex items-center justify-center bg-black">
-                    <div className="text-center">
-                      <div className="w-24 h-24 mx-auto mb-6 relative">
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-3xl blur-2xl opacity-50 animate-pulse"></div>
-                        <div className="relative w-full h-full bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 rounded-3xl flex items-center justify-center">
-                          <svg className="w-12 h-12 text-white animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                    <div className="text-center px-4">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mx-auto mb-4 sm:mb-6 relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl opacity-50 animate-pulse"></div>
+                        <div className="relative w-full h-full bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 rounded-2xl sm:rounded-3xl flex items-center justify-center">
+                          <svg className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-white animate-pulse" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V7.89l7-3.78v8.88z"/>
                           </svg>
                         </div>
                       </div>
-                      <p className="text-2xl text-gradient-rizhub font-black mb-2">Loading Premium Content</p>
-                      <p className="text-sm text-white/40">Extracting stream URL...</p>
-                      <div className="flex justify-center gap-2 mt-6">
-                        <div className="w-3 h-3 bg-purple-600 rounded-full animate-bounce"></div>
-                        <div className="w-3 h-3 bg-pink-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                        <div className="w-3 h-3 bg-red-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                      <p className="text-lg sm:text-xl lg:text-2xl text-gradient-rizhub font-black mb-2">Loading Premium Content</p>
+                      <p className="text-xs sm:text-sm text-white/40">Extracting stream URL...</p>
+                      <div className="flex justify-center gap-1.5 sm:gap-2 mt-4 sm:mt-6">
+                        <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-600 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 sm:w-3 sm:h-3 bg-pink-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                        <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                       </div>
                     </div>
                   </div>
                 ) : error ? (
                   /* Error State - Server Down */
                   <div className="absolute inset-0 flex items-center justify-center bg-black">
-                    <div className="text-center p-8 max-w-md">
-                      <div className="w-24 h-24 mx-auto mb-6 rounded-3xl bg-red-500/20 flex items-center justify-center">
-                        <svg className="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="text-center p-4 sm:p-6 lg:p-8 max-w-md mx-4">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mx-auto mb-4 sm:mb-6 rounded-2xl sm:rounded-3xl bg-red-500/20 flex items-center justify-center">
+                        <svg className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
                       </div>
-                      <h3 className="text-2xl text-gradient-rizhub font-black mb-4">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl text-gradient-rizhub font-black mb-3 sm:mb-4">
                         {t('errorTitle')}
                       </h3>
-                      <p className="text-white/70 mb-6 leading-relaxed">
+                      <p className="text-sm sm:text-base text-white/70 mb-4 sm:mb-6 leading-relaxed">
                         {t('errorMessage')}
                       </p>
                       <button 
                         onClick={() => window.location.reload()}
-                        className="btn-rizhub"
+                        className="btn-rizhub text-sm sm:text-base"
                       >
                         🔄 {t('refreshPage')}
                       </button>
@@ -301,21 +301,21 @@ export default function WatchPage() {
                       <img 
                         src={video.image} 
                         alt={video.title}
-                        className="absolute inset-0 w-full h-full object-cover opacity-20 blur-2xl"
+                        className="absolute inset-0 w-full h-full object-cover opacity-20 blur-xl sm:blur-2xl"
                         onError={(e) => e.target.style.display = 'none'}
                       />
                     )}
-                    <div className="relative text-center p-8">
-                      <div className="w-24 h-24 mx-auto mb-6 relative">
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-3xl blur-2xl opacity-50 animate-pulse"></div>
-                        <div className="relative w-full h-full bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 rounded-3xl flex items-center justify-center">
-                          <svg className="w-12 h-12 text-white animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                    <div className="relative text-center p-4 sm:p-6 lg:p-8">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mx-auto mb-4 sm:mb-6 relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl opacity-50 animate-pulse"></div>
+                        <div className="relative w-full h-full bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 rounded-2xl sm:rounded-3xl flex items-center justify-center">
+                          <svg className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-white animate-pulse" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M8 5v14l11-7z"/>
                           </svg>
                         </div>
                       </div>
-                      <p className="text-xl text-gradient-rizhub font-black mb-2">{t('preparing')}</p>
-                      <p className="text-sm text-white/40">{t('pleasewait')}</p>
+                      <p className="text-base sm:text-lg lg:text-xl text-gradient-rizhub font-black mb-2">{t('preparing')}</p>
+                      <p className="text-xs sm:text-sm text-white/40">{t('pleasewait')}</p>
                     </div>
                   </div>
                 )}
@@ -365,68 +365,68 @@ export default function WatchPage() {
             </div>
 
             {/* Video Info */}
-            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
+            <div className="bg-white/5 backdrop-blur-lg sm:backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/10">
               {/* Title & Options */}
-              <div className="flex items-start justify-between gap-4 mb-6">
-                <h1 className="text-4xl font-black text-white leading-tight flex-1">
-                  {videoDetails?.data?.title || video.title}
+              <div className="flex items-start justify-between gap-2 sm:gap-4 mb-4 sm:mb-6">
+                <h1 className="text-lg sm:text-2xl lg:text-4xl font-black text-white leading-tight flex-1">
+                  {videoDetails?.data?.title || video.title || 'Loading...'}
                 </h1>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                   <ShareButton video={video} />
                   <WatchOptions video={video} />
                 </div>
               </div>
               
               {/* Stats */}
-              <div className="flex flex-wrap gap-4 mb-6">
+              <div className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-6">
                 {videoDetails?.data?.views && (
-                  <div className="flex items-center gap-3 bg-white/5 px-5 py-3 rounded-2xl border border-white/10">
-                    <div className="w-10 h-10 rounded-xl bg-purple-600/20 flex items-center justify-center text-xl">
+                  <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-5 lg:py-3 rounded-xl sm:rounded-2xl border border-white/10">
+                    <div className="w-7 h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg sm:rounded-xl bg-purple-600/20 flex items-center justify-center text-base sm:text-lg lg:text-xl">
                       👁️
                     </div>
                     <div>
-                      <p className="text-xs text-white/40 uppercase font-semibold tracking-wide">Views</p>
-                      <p className="text-sm font-bold text-purple-400">
-                        {videoDetails.data.views}
+                      <p className="text-[10px] sm:text-xs text-white/40 uppercase font-semibold tracking-wide">VIEWS</p>
+                      <p className="text-xs sm:text-sm font-bold text-purple-400">
+                        {videoDetails.data.views || 'N/A'}
                       </p>
                     </div>
                   </div>
                 )}
                 
                 {videoDetails?.data?.rating && (
-                  <div className="flex items-center gap-3 bg-white/5 px-5 py-3 rounded-2xl border border-white/10">
-                    <div className="w-10 h-10 rounded-xl bg-pink-600/20 flex items-center justify-center text-xl">
+                  <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-5 lg:py-3 rounded-xl sm:rounded-2xl border border-white/10">
+                    <div className="w-7 h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg sm:rounded-xl bg-pink-600/20 flex items-center justify-center text-base sm:text-lg lg:text-xl">
                       ⭐
                     </div>
                     <div>
-                      <p className="text-xs text-white/40 uppercase font-semibold tracking-wide">Rating</p>
-                      <p className="text-sm font-bold text-pink-400">
-                        {videoDetails.data.rating}
+                      <p className="text-[10px] sm:text-xs text-white/40 uppercase font-semibold tracking-wide">RATING</p>
+                      <p className="text-xs sm:text-sm font-bold text-pink-400">
+                        {videoDetails.data.rating || 'N/A'}
                       </p>
                     </div>
                   </div>
                 )}
                 
                 {videoDetails?.data?.duration && (
-                  <div className="flex items-center gap-3 bg-white/5 px-5 py-3 rounded-2xl border border-white/10">
-                    <div className="w-10 h-10 rounded-xl bg-red-600/20 flex items-center justify-center text-xl">
+                  <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-5 lg:py-3 rounded-xl sm:rounded-2xl border border-white/10">
+                    <div className="w-7 h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg sm:rounded-xl bg-red-600/20 flex items-center justify-center text-base sm:text-lg lg:text-xl">
                       ⏱️
                     </div>
                     <div>
-                      <p className="text-xs text-white/40 uppercase font-semibold tracking-wide">Duration</p>
-                      <p className="text-sm font-bold text-red-400">
-                        {videoDetails.data.duration}
+                      <p className="text-[10px] sm:text-xs text-white/40 uppercase font-semibold tracking-wide">DURATION</p>
+                      <p className="text-xs sm:text-sm font-bold text-red-400">
+                        {videoDetails.data.duration || 'N/A'}
                       </p>
                     </div>
                   </div>
                 )}
                 
                 {videoDetails?.data?.uploaded && (
-                  <div className="flex items-center gap-2 bg-[#0a0e27]/50 px-4 py-2 rounded-lg">
-                    <span className="text-2xl">📅</span>
+                  <div className="flex items-center gap-2 bg-[#0a0e27]/50 px-3 py-2 sm:px-4 sm:py-2 rounded-lg">
+                    <span className="text-lg sm:text-2xl">📅</span>
                     <div>
-                      <p className="text-xs text-gray-400">Uploaded</p>
-                      <p className="text-sm font-bold text-[#d4af37]">
+                      <p className="text-[10px] sm:text-xs text-gray-400">Uploaded</p>
+                      <p className="text-xs sm:text-sm font-bold text-[#d4af37]">
                         {videoDetails.data.uploaded}
                       </p>
                     </div>
@@ -436,17 +436,17 @@ export default function WatchPage() {
 
               {/* Votes */}
               {(videoDetails?.data?.upvoted || videoDetails?.data?.downvoted) && (
-                <div className="flex gap-4 mb-6">
+                <div className="flex gap-3 sm:gap-4 mb-4 sm:mb-6">
                   {videoDetails.data.upvoted && (
-                    <div className="flex items-center gap-2 text-green-400">
-                      <span className="text-xl">👍</span>
-                      <span className="font-semibold">{videoDetails.data.upvoted}</span>
+                    <div className="flex items-center gap-1.5 sm:gap-2 text-green-400">
+                      <span className="text-base sm:text-xl">👍</span>
+                      <span className="font-semibold text-sm sm:text-base">{videoDetails.data.upvoted}</span>
                     </div>
                   )}
                   {videoDetails.data.downvoted && (
-                    <div className="flex items-center gap-2 text-red-400">
-                      <span className="text-xl">👎</span>
-                      <span className="font-semibold">{videoDetails.data.downvoted}</span>
+                    <div className="flex items-center gap-1.5 sm:gap-2 text-red-400">
+                      <span className="text-base sm:text-xl">👎</span>
+                      <span className="font-semibold text-sm sm:text-base">{videoDetails.data.downvoted}</span>
                     </div>
                   )}
                 </div>
@@ -455,12 +455,12 @@ export default function WatchPage() {
               {/* Tags */}
               {videoDetails?.data?.tags && videoDetails.data.tags.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-400 mb-2">Tags:</h3>
-                  <div className="flex flex-wrap gap-2">
+                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400 mb-2">Tags:</h3>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {videoDetails.data.tags.map((tag, i) => (
                       <span
                         key={i}
-                        className="px-3 py-1 bg-[#d4af37]/10 border border-[#d4af37]/30 rounded-full text-xs text-[#d4af37] hover:bg-[#d4af37]/20 transition-colors cursor-pointer"
+                        className="px-2 py-1 sm:px-3 sm:py-1 bg-[#d4af37]/10 border border-[#d4af37]/30 rounded-full text-[10px] sm:text-xs text-[#d4af37] hover:bg-[#d4af37]/20 transition-colors cursor-pointer"
                       >
                         {tag}
                       </span>
@@ -487,14 +487,14 @@ export default function WatchPage() {
 
           {/* Sidebar - Related Videos */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24">
-              <h2 className="text-2xl font-black text-gradient-rizhub mb-6 flex items-center gap-3">
-                <span className="text-3xl">🎬</span> {t('relatedContent')}
+            <div className="lg:sticky lg:top-24">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-gradient-rizhub mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                <span className="text-2xl sm:text-3xl">🎬</span> {t('relatedContent')}
               </h2>
               
               {relatedVideos.length > 0 ? (
                 <>
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {relatedVideos.slice(0, relatedPage * RELATED_PER_PAGE).map((v, i) => (
                       <div key={v.id || i} className="transform hover:scale-[1.02] transition-transform duration-300">
                         <VideoCard video={v} />
@@ -506,23 +506,23 @@ export default function WatchPage() {
                   {relatedVideos.length > relatedPage * RELATED_PER_PAGE && (
                     <button
                       onClick={() => setRelatedPage(prev => prev + 1)}
-                      className="w-full mt-4 px-6 py-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 hover:from-purple-600 hover:to-pink-600 border border-purple-500/30 hover:border-purple-500 rounded-2xl text-white font-bold transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/30"
+                      className="w-full mt-3 sm:mt-4 px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 hover:from-purple-600 hover:to-pink-600 border border-purple-500/30 hover:border-purple-500 rounded-xl sm:rounded-2xl text-white text-sm sm:text-base font-bold transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/30"
                     >
                       {t('language') === 'en' ? '⬇️ Load More' : '⬇️ Muat Lebih Banyak'}
                     </button>
                   )}
                 </>
               ) : loading ? (
-                <div className="text-center py-8 bg-white/5 rounded-3xl border border-white/10">
-                  <div className="loading-rizhub w-16 h-16 mx-auto mb-3 rounded-2xl"></div>
-                  <p className="text-sm text-white/40">Loading related content...</p>
+                <div className="text-center py-6 sm:py-8 bg-white/5 rounded-2xl sm:rounded-3xl border border-white/10">
+                  <div className="loading-rizhub w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 rounded-xl sm:rounded-2xl"></div>
+                  <p className="text-xs sm:text-sm text-white/40">Loading related content...</p>
                 </div>
               ) : (
-                <div className="text-center py-12 bg-white/5 rounded-3xl border border-white/10">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-purple-600/20 flex items-center justify-center text-3xl">
+                <div className="text-center py-8 sm:py-12 bg-white/5 rounded-2xl sm:rounded-3xl border border-white/10">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl sm:rounded-2xl bg-purple-600/20 flex items-center justify-center text-2xl sm:text-3xl">
                     🎬
                   </div>
-                  <p className="text-sm text-white/40">No related videos found</p>
+                  <p className="text-xs sm:text-sm text-white/40">No related videos found</p>
                 </div>
               )}
             </div>

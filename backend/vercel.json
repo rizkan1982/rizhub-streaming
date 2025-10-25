@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "rizhub-backend",
   "builds": [
     {
       "src": "build/src/index.js",
@@ -12,11 +11,6 @@
       "src": "/(.*)",
       "dest": "build/src/index.js"
     }
-  ],
-  "functions": {
-    "build/src/index.js": {
-      "maxDuration": 60
-    }
-  }
+  ]
 }
 

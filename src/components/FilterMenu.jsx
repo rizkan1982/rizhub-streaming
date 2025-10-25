@@ -87,12 +87,12 @@ export default function FilterMenu({ onFilterChange, currentFilters = {} }) {
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/70 z-40"
             onClick={() => setIsOpen(false)}
           ></div>
 
-          {/* Menu Panel */}
-          <div className="absolute right-0 mt-2 sm:mt-4 w-[90vw] sm:w-80 lg:w-96 max-w-md max-h-[85vh] overflow-y-auto bg-[#0a0a0f] border border-white/10 rounded-2xl sm:rounded-3xl shadow-2xl z-50 animate-fadeIn">
+          {/* Menu Panel - Slide from right on mobile, dropdown on desktop */}
+          <div className="fixed sm:absolute right-0 top-0 sm:top-auto mt-0 sm:mt-4 w-[85vw] sm:w-80 lg:w-96 max-w-md h-full sm:h-auto sm:max-h-[85vh] overflow-y-auto bg-gradient-to-b from-[#1a1a2e] via-[#16213e] to-[#0f1419] sm:bg-[#0a0a0f] border-l-4 sm:border-l border-purple-500 sm:border-white/20 rounded-none sm:rounded-2xl lg:sm:rounded-3xl shadow-2xl z-50 animate-slideInRight sm:animate-fadeIn">
             {/* Header */}
             <div className="sticky top-0 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-red-600/20 backdrop-blur-xl border-b border-white/10 p-4 sm:p-6">
               <div className="flex items-center justify-between mb-2">
@@ -134,10 +134,10 @@ export default function FilterMenu({ onFilterChange, currentFilters = {} }) {
                     key={genre.id}
                     onClick={() => handleGenreChange(genre.value)}
                     className={`
-                      px-2 py-2 sm:px-3 sm:py-2.5 lg:px-4 lg:py-3 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300
+                      px-2 py-2 sm:px-3 sm:py-2.5 lg:px-4 lg:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all duration-300
                       ${(currentFilters.genre === genre.value) || (!currentFilters.genre && genre.value === '')
                         ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30'
-                        : 'bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10'
+                        : 'bg-white/10 hover:bg-white/20 text-white hover:text-white border border-white/20 hover:border-white/30'
                       }
                     `}
                   >
@@ -159,10 +159,10 @@ export default function FilterMenu({ onFilterChange, currentFilters = {} }) {
                     key={duration.id}
                     onClick={() => handleDurationChange(duration.value)}
                     className={`
-                      px-2 py-2 sm:px-3 sm:py-2.5 lg:px-4 lg:py-3 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300 text-left
+                      px-2 py-2 sm:px-3 sm:py-2.5 lg:px-4 lg:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 text-left
                       ${(currentFilters.duration === duration.value) || (!currentFilters.duration && duration.value === '')
                         ? 'bg-gradient-to-r from-pink-600 to-red-600 text-white shadow-lg shadow-pink-500/30'
-                        : 'bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10'
+                        : 'bg-white/10 hover:bg-white/20 text-white hover:text-white border border-white/20 hover:border-white/30'
                       }
                     `}
                   >

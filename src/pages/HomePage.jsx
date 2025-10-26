@@ -11,6 +11,10 @@ import { getContinueWatching, getFavorites, getWatchHistory, clearHistory } from
 
 const API_BASE = import.meta.env.VITE_API_BASE || "https://rizhub-backenddua.vercel.app";
 
+// Debug logging
+console.log("🔧 API_BASE:", API_BASE);
+console.log("🔧 VITE_API_BASE from env:", import.meta.env.VITE_API_BASE);
+
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();

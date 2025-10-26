@@ -13,6 +13,9 @@ import { addToHistory, isFavorite, toggleFavorite } from "../utils/watchHistory"
 
 const API_BASE = import.meta.env.VITE_API_BASE || "https://rizhub-backenddua.vercel.app";
 
+// Debug logging
+console.log("🔧 WatchPage API_BASE:", API_BASE);
+
 export default function WatchPage() {
   const location = useLocation();
   const navigate = useNavigate();

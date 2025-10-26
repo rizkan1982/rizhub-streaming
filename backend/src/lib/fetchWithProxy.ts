@@ -59,5 +59,30 @@ export default async function fetchWithProxy(url: string): Promise<string> {
     }
   }
 
+  // 3️⃣ Last resort: Direct fetch (tanpa proxy)
+  console.log("[Trying direct fetch without proxy]");
+  try {
+    const res = await fetch(url, {
+      headers: { 
+        "User-Agent": userAgent,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate",
+        "Connection": "keep-alive",
+        "Upgrade-Insecure-Requests": "1"
+      },
+      timeout: 15000,
+    });
+    if (res.ok) {
+      const html = await res.text();
+      if (html.includes("<html")) {
+        console.log("[Direct fetch OK]");
+        return html;
+      }
+    }
+  } catch (err) {
+    console.warn(`[Direct fetch Failed]: ${(err as Error).message}`);
+  }
+
   throw new Error("All proxies failed to fetch HTML.");
 }

@@ -50,15 +50,24 @@ export async function scrapeContent(url: string) {
                        $("#video-duration").text().trim() ||
                        "0";
         
-        // Views with multiple fallbacks
+        // Views with multiple fallbacks - more aggressive
         this.views = $("div#v-views").find("strong.mobile-hide").text().trim() || 
                     $("strong.mobile-hide").first().text().trim() ||
                     $("div.metadata").find("strong").first().text().trim() ||
+                    $("strong").filter((i, el) => {
+                      const text = $(el).text();
+                      return text.includes('Views') || text.includes('views') || /\d+/.test(text);
+                    }).first().text().trim() ||
+                    $("div.video-metadata").find("strong").first().text().trim() ||
+                    $("span.mobile-hide").filter((i, el) => /\d/.test($(el).text())).first().text().trim() ||
                     "None";
         
-        // Rating with multiple fallbacks
+        // Rating with multiple fallbacks - more aggressive
         this.rating = $("span.rating-total-txt").text().trim() || 
                      $("div.metadata").find("span").filter((i, el) => $(el).text().includes("%")).text().trim() ||
+                     $("span").filter((i, el) => $(el).text().includes("%")).first().text().trim() ||
+                     $("div.rating-box").find("span").first().text().trim() ||
+                     $(".vote-actions span").first().text().trim() ||
                      "None";
         this.publish = $("script[type='application/ld+json']").text() || "None";
         try {
@@ -75,8 +84,15 @@ export async function scrapeContent(url: string) {
         } catch {
           this.publish = "None";
         }
-        this.upVote = $("span.rating-good-nbr").text() || "None";
-        this.downVote = $("span.rating-bad-nbr").text() || "None";
+        // Up/Down votes with fallbacks
+        this.upVote = $("span.rating-good-nbr").text().trim() || 
+                     $("span.vote-actions-good").text().trim() ||
+                     $("span").filter((i, el) => $(el).text().includes("👍") || $(el).hasClass("good")).first().text().trim() ||
+                     "None";
+        this.downVote = $("span.rating-bad-nbr").text().trim() || 
+                       $("span.vote-actions-bad").text().trim() ||
+                       $("span").filter((i, el) => $(el).text().includes("👎") || $(el).hasClass("bad")).first().text().trim() ||
+                       "None";
         const thumb = $("script")
           .map((i, el) => {
             return $(el).text();
@@ -114,13 +130,22 @@ export async function scrapeContent(url: string) {
     
     const xv = new Xvideos();
     
-    // Debug logging
+    // Debug logging with HTML snippets
     console.log("🔍 Scraped Data:", {
       title: xv.title,
       duration: xv.duration,
       views: xv.views,
-      rating: xv.rating
+      rating: xv.rating,
+      upVote: xv.upVote,
+      downVote: xv.downVote
     });
+    
+    // Debug: Log HTML elements we're looking for
+    console.log("🔎 HTML Debug:");
+    console.log("  - v-views div:", $("div#v-views").text().substring(0, 100));
+    console.log("  - rating span:", $("span.rating-total-txt").text().substring(0, 50));
+    console.log("  - All strong tags count:", $("strong").length);
+    console.log("  - All spans with %:", $("span").filter((i, el) => $(el).text().includes("%")).length);
     
     const data: IVideoData = {
       success: true,

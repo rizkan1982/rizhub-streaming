@@ -9,7 +9,7 @@ import VideoSection from "../components/VideoSection";
 import { useLanguage } from "../contexts/LanguageContext";
 import { getContinueWatching, getFavorites, getWatchHistory, clearHistory } from "../utils/watchHistory";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
+const API_BASE = import.meta.env.VITE_API_BASE || "https://rizhub-backenddua.vercel.app";
 
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -382,7 +382,7 @@ export default function WatchPage() {
               
               {/* Stats */}
               <div className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-6">
-                {videoDetails?.data?.views && (
+                {videoDetails?.data?.views && videoDetails.data.views !== 'None' && (
                   <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-5 lg:py-3 rounded-xl sm:rounded-2xl border border-white/10">
                     <div className="w-7 h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg sm:rounded-xl bg-purple-600/20 flex items-center justify-center text-base sm:text-lg lg:text-xl">
                       👁️
@@ -390,13 +390,13 @@ export default function WatchPage() {
                     <div>
                       <p className="text-[10px] sm:text-xs text-white/40 uppercase font-semibold tracking-wide">VIEWS</p>
                       <p className="text-xs sm:text-sm font-bold text-purple-400">
-                        {videoDetails.data.views || 'N/A'}
+                        {videoDetails.data.views}
                       </p>
                     </div>
                   </div>
                 )}
                 
-                {videoDetails?.data?.rating && (
+                {videoDetails?.data?.rating && videoDetails.data.rating !== 'None' && (
                   <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-5 lg:py-3 rounded-xl sm:rounded-2xl border border-white/10">
                     <div className="w-7 h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg sm:rounded-xl bg-pink-600/20 flex items-center justify-center text-base sm:text-lg lg:text-xl">
                       ⭐
@@ -404,13 +404,13 @@ export default function WatchPage() {
                     <div>
                       <p className="text-[10px] sm:text-xs text-white/40 uppercase font-semibold tracking-wide">RATING</p>
                       <p className="text-xs sm:text-sm font-bold text-pink-400">
-                        {videoDetails.data.rating || 'N/A'}
+                        {videoDetails.data.rating}
                       </p>
                     </div>
                   </div>
                 )}
                 
-                {videoDetails?.data?.duration && (
+                {videoDetails?.data?.duration && videoDetails.data.duration !== '0min, 0sec' && (
                   <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-5 lg:py-3 rounded-xl sm:rounded-2xl border border-white/10">
                     <div className="w-7 h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg sm:rounded-xl bg-red-600/20 flex items-center justify-center text-base sm:text-lg lg:text-xl">
                       ⏱️
@@ -424,7 +424,7 @@ export default function WatchPage() {
                   </div>
                 )}
                 
-                {videoDetails?.data?.uploaded && (
+                {videoDetails?.data?.uploaded && videoDetails.data.uploaded !== 'None' && (
                   <div className="flex items-center gap-2 bg-[#0a0e27]/50 px-3 py-2 sm:px-4 sm:py-2 rounded-lg">
                     <span className="text-lg sm:text-2xl">📅</span>
                     <div>
@@ -438,15 +438,15 @@ export default function WatchPage() {
               </div>
 
               {/* Votes */}
-              {(videoDetails?.data?.upvoted || videoDetails?.data?.downvoted) && (
+              {(videoDetails?.data?.upvoted && videoDetails.data.upvoted !== 'None') || (videoDetails?.data?.downvoted && videoDetails.data.downvoted !== 'None') && (
                 <div className="flex gap-3 sm:gap-4 mb-4 sm:mb-6">
-                  {videoDetails.data.upvoted && (
+                  {videoDetails.data.upvoted && videoDetails.data.upvoted !== 'None' && (
                     <div className="flex items-center gap-1.5 sm:gap-2 text-green-400">
                       <span className="text-base sm:text-xl">👍</span>
                       <span className="font-semibold text-sm sm:text-base">{videoDetails.data.upvoted}</span>
                     </div>
                   )}
-                  {videoDetails.data.downvoted && (
+                  {videoDetails.data.downvoted && videoDetails.data.downvoted !== 'None' && (
                     <div className="flex items-center gap-1.5 sm:gap-2 text-red-400">
                       <span className="text-base sm:text-xl">👎</span>
                       <span className="font-semibold text-sm sm:text-base">{videoDetails.data.downvoted}</span>

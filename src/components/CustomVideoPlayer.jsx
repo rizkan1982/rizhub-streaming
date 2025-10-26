@@ -38,11 +38,12 @@ export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
 
   // Play/Pause
   const togglePlay = () => {
-    // Jika belum nonton iklan, tampilkan iklan dulu
-    if (!hasWatchedAd && !isPlaying) {
-      setShowAd(true);
-      return;
-    }
+    // NOTE: Custom interstitial disabled - Multitag handles all ads automatically
+    // Uncomment lines below to enable custom interstitial with countdown UI:
+    // if (!hasWatchedAd && !isPlaying) {
+    //   setShowAd(true);
+    //   return;
+    // }
     
     if (videoRef.current) {
       if (isPlaying) {

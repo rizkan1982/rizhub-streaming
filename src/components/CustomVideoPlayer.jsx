@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import InterstitialAd from './InterstitialAd';
 
 export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
   const { t } = useLanguage();
@@ -19,9 +20,30 @@ export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
   const [buffered, setBuffered] = useState(0);
   
   const controlsTimeoutRef = useRef(null);
+  
+  // Ad State
+  const [showAd, setShowAd] = useState(false);
+  const [hasWatchedAd, setHasWatchedAd] = useState(false);
+
+  // Handler ketika iklan selesai
+  const handleAdComplete = () => {
+    setShowAd(false);
+    setHasWatchedAd(true);
+    
+    // Auto-play video setelah iklan selesai
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  };
 
   // Play/Pause
   const togglePlay = () => {
+    // Jika belum nonton iklan, tampilkan iklan dulu
+    if (!hasWatchedAd && !isPlaying) {
+      setShowAd(true);
+      return;
+    }
+    
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
@@ -243,12 +265,16 @@ export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div 
-      ref={containerRef}
-      className={`relative group ${isTheaterMode ? 'fixed inset-0 z-50 bg-black' : 'w-full'}`}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => isPlaying && setShowControls(false)}
-    >
+    <>
+      {/* Interstitial Ad */}
+      <InterstitialAd show={showAd} onAdComplete={handleAdComplete} />
+      
+      <div 
+        ref={containerRef}
+        className={`relative group ${isTheaterMode ? 'fixed inset-0 z-50 bg-black' : 'w-full'}`}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => isPlaying && setShowControls(false)}
+      >
       {/* Video Element */}
       <video
         ref={videoRef}
@@ -448,6 +474,7 @@ export default function CustomVideoPlayer({ src, poster, title, onEnded }) {
       </div>
 
     </div>
+    </>
   );
 }
 

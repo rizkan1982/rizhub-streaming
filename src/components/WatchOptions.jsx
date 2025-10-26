@@ -144,15 +144,6 @@ export default function WatchOptions({ video }) {
               ))}
             </div>
 
-            {/* Footer Info */}
-            <div className="p-4 sm:p-6 bg-gradient-to-r from-purple-600/10 to-pink-600/10 border-t border-white/10">
-              <p className="text-xs sm:text-sm text-white/50 text-center">
-                {isEnglish 
-                  ? '💡 Tip: Use keyboard shortcuts for better experience!' 
-                  : '💡 Tips: Gunakan shortcut keyboard untuk pengalaman lebih baik!'
-                }
-              </p>
-            </div>
           </div>
         </>
       )}

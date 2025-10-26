@@ -372,7 +372,7 @@ export default function WatchPage() {
               {/* Title & Options */}
               <div className="flex items-start justify-between gap-2 sm:gap-4 mb-4 sm:mb-6">
                 <h1 className="text-lg sm:text-2xl lg:text-4xl font-black text-white leading-tight flex-1">
-                  {videoDetails?.data?.title || video.title || 'Loading...'}
+                  {(videoDetails?.data?.title && videoDetails.data.title !== 'Not found' ? videoDetails.data.title : video.title) || 'Loading...'}
                 </h1>
                 <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                   <ShareButton video={video} />

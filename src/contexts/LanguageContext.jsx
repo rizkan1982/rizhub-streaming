@@ -55,7 +55,7 @@ export const translations = {
     // Errors
     connectionError: "Connection Error",
     failedToConnect: "Failed to connect to server",
-    makeBackend: "Make sure backend is running on http://localhost:3000",
+    makeBackend: "Please check your connection and try again",
     noVideos: "No Content Found",
     tryDifferent: "Try searching with different keywords",
     
@@ -134,7 +134,7 @@ export const translations = {
     // Errors
     connectionError: "Kesalahan Koneksi",
     failedToConnect: "Gagal terhubung ke server",
-    makeBackend: "Pastikan backend berjalan di http://localhost:3000",
+    makeBackend: "Periksa koneksi Anda dan coba lagi",
     noVideos: "Konten Tidak Ditemukan",
     tryDifferent: "Coba cari dengan kata kunci berbeda",
     

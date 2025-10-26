@@ -27,13 +27,39 @@ export async function scrapeContent(url: string) {
       bigimg: string;
       embed: string;
       constructor() {
-        this.link = $("meta[property='og:url']").attr("content") || "None";
+        // Link & ID
+        this.link = $("meta[property='og:url']").attr("content") || 
+                    $("link[rel='canonical']").attr("href") || 
+                    "None";
         this.id = this.link !== "None" ? this.link.split("/")[3] + "/" + this.link.split("/")[4] : "None";
-        this.title = $("meta[property='og:title']").attr("content") || "None";
-        this.image = $("meta[property='og:image']").attr("content") || "None";
-        this.duration = $("meta[property='og:duration']").attr("content") || "0";
-        this.views = $("div#v-views").find("strong.mobile-hide").text() || "None";
-        this.rating = $("span.rating-total-txt").text() || "None";
+        
+        // Title with multiple fallbacks
+        this.title = $("meta[property='og:title']").attr("content") || 
+                     $("h2.page-title").text().trim() ||
+                     $("title").text().replace(" - XVIDEOS.COM", "").trim() ||
+                     "None";
+        
+        // Image
+        this.image = $("meta[property='og:image']").attr("content") || 
+                     $("#player img").attr("src") ||
+                     "None";
+        
+        // Duration with multiple fallbacks
+        this.duration = $("meta[property='og:duration']").attr("content") || 
+                       $("span.duration").text().trim() ||
+                       $("#video-duration").text().trim() ||
+                       "0";
+        
+        // Views with multiple fallbacks
+        this.views = $("div#v-views").find("strong.mobile-hide").text().trim() || 
+                    $("strong.mobile-hide").first().text().trim() ||
+                    $("div.metadata").find("strong").first().text().trim() ||
+                    "None";
+        
+        // Rating with multiple fallbacks
+        this.rating = $("span.rating-total-txt").text().trim() || 
+                     $("div.metadata").find("span").filter((i, el) => $(el).text().includes("%")).text().trim() ||
+                     "None";
         this.publish = $("script[type='application/ld+json']").text() || "None";
         try {
           if (this.publish !== "None" && this.publish.includes("uploadDate")) {
@@ -87,6 +113,15 @@ export async function scrapeContent(url: string) {
     }
     
     const xv = new Xvideos();
+    
+    // Debug logging
+    console.log("🔍 Scraped Data:", {
+      title: xv.title,
+      duration: xv.duration,
+      views: xv.views,
+      rating: xv.rating
+    });
+    
     const data: IVideoData = {
       success: true,
       data: {

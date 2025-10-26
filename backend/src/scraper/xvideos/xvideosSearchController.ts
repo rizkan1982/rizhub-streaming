@@ -26,16 +26,19 @@ export async function scrapeContent(url: string) {
         this.search = $("div.mozaique.cust-nb-cols")
           .find("div.thumb")
           .map((i, el) => {
+            const href = $(el).find("a").attr("href") || "";
+            const videoId = $(el).find("img").attr("data-videoid") || "";
+            const thumbImg = $(el).find("img");
+            const duration = data[i]?.duration === data[i + 1]?.duration ? "" : (data[i]?.duration || "");
+            
             return {
-              link: `${c.XVIDEOS}${$(el).find("a").attr("href")}` || "None",
-              id: $(el).find("a").attr("href") || "None",
-              image: $(el).find("img").attr("data-src") || "None",
-              title: data[i].title || "None",
-              duration: data[i].duration === data[i + 1]?.duration
-                ? ""
-                : data[i].duration || "None",
+              link: `${c.XVIDEOS}${href}` || "None",
+              id: href || "None",
+              image: thumbImg.attr("data-src") || thumbImg.attr("src") || "None",
+              title: data[i]?.title || "None",
+              duration: duration || "None",
               rating: null,
-              video: `${c.XVIDEOS}/embedframe/${$(el).find("img").attr("data-videoid")}`
+              video: videoId ? `${c.XVIDEOS}/embedframe/${videoId}` : "None"
             };
           }).get();
 

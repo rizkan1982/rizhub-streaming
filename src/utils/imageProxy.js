@@ -2,7 +2,7 @@
  * Proxy image URL untuk bypass ISP blocking
  * Berguna untuk data seluler Indonesia yang memblokir domain adult
  */
-export function proxyImageUrl(originalUrl, apiBase = import.meta.env.VITE_API_BASE || "https://rizhub-backenddua.vercel.app") {
+export function proxyImageUrl(originalUrl, apiBase = import.meta.env.VITE_API_BASE || "https://rizhub-backend.vercel.app") {
   if (!originalUrl) return '';
   
   // Jika URL sudah melalui proxy, return as is

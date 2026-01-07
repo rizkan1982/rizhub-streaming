@@ -5,6 +5,10 @@
 export function proxyImageUrl(originalUrl, apiBase = import.meta.env.VITE_API_BASE || "https://rizhub-backend.vercel.app") {
   if (!originalUrl) return '';
   
+  // TEMPORARY: Disable proxy karena backend belum ter-deploy dengan endpoint baru
+  // Return original URL dulu, nanti akan di-enable setelah backend deploy
+  return originalUrl;
+  
   // Jika URL sudah melalui proxy, return as is
   if (originalUrl.includes('/image/proxy')) {
     return originalUrl;

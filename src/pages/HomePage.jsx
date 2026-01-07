@@ -9,7 +9,7 @@ import VideoSection from "../components/VideoSection";
 import { useLanguage } from "../contexts/LanguageContext";
 import { getContinueWatching, getFavorites, getWatchHistory, clearHistory } from "../utils/watchHistory";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "https://rizhub-backend.vercel.app";
+const API_BASE = import.meta.env.VITE_API_BASE || "https://rizhub-backenddua.vercel.app";
 
 // Debug logging
 console.log("🔧 API_BASE:", API_BASE);

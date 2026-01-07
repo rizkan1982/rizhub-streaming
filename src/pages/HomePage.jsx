@@ -90,27 +90,32 @@ export default function HomePage() {
     setLoading(true);
     setError(null);
     try {
-      // Use random popular queries for variety on each page
-      const trendingQueries = [
-        "hot", "milf", "teen", "asian", "pov", "amateur", "big tits", 
-        "big ass", "blonde", "brunette", "latina", "anal", "threesome",
-        "lesbian", "massage", "stepmom", "teacher", "office", "public"
-      ];
+      // TEMPORARY FIX: Use random endpoint instead of search
+      // Search endpoint is broken in production backend
+      // We'll fetch multiple random videos to simulate trending
       
-      // Pick a random query, but consistent for the same page (so back button works)
-      const seed = page * 7; // Simple seed based on page
-      const queryIndex = seed % trendingQueries.length;
-      const query = trendingQueries[queryIndex];
+      console.log(`🔥 Fetching trending (random videos)`);
       
-      console.log(`🔥 Fetching trending (page ${page}): ${query}`);
+      // Fetch random endpoint multiple times to get variety
+      const promises = [];
+      const videosPerBatch = 18; // 18 videos per page
       
-      const res = await fetch(`${API_BASE}/${platform}/search?key=${query}&page=${page}`);
-      const data = await res.json();
+      for (let i = 0; i < videosPerBatch; i++) {
+        promises.push(
+          fetch(`${API_BASE}/${platform}/random`)
+            .then(res => res.json())
+            .then(data => data.success ? data.data : null)
+            .catch(() => null)
+        );
+      }
       
-      if (data.success) {
-        setVideos(data.data || data.results || []);
+      const results = await Promise.all(promises);
+      const videos = results.filter(v => v !== null);
+      
+      if (videos.length > 0) {
+        setVideos(videos);
       } else {
-        setError(data.message || "Failed to fetch videos");
+        setError("Failed to fetch videos");
         setVideos([]);
       }
     } catch (err) {
